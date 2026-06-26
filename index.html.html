@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Álbum Copa 2026 — Victor & Helena</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --green:#009c3b;--green-light:#009c3b18;--green-mid:#009c3b44;
+  --gold:#c8960c;--gold-light:#f0c04022;--gold-border:#f0c04077;
+  --red:#dc3545;--blue:#185fa5;
+  --bg:#f5f5f3;--surface:#ffffff;--surface2:#f0efed;
+  --text:#1a1a18;--text2:#6b6b67;--text3:#9b9b97;
+  --border:#e4e4e0;--border2:#d0d0cc;
+  --radius:10px;--radius-sm:7px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#111110;--surface:#1c1c1a;--surface2:#252522;
+    --text:#f0f0ec;--text2:#9b9b97;--text3:#6b6b67;
+    --border:#2e2e2a;--border2:#3a3a36;
+    --green-light:#009c3b22;--green-mid:#009c3b55;
+    --gold-light:#f0c04018;--gold-border:#f0c04055;
+  }
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5;min-height:100vh}
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 14px;position:sticky;top:0;z-index:100}
+.header-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.header-title{font-size:14px;font-weight:600;letter-spacing:-0.01em}
+.header-title em{color:var(--green);font-style:normal}
+.header-right{display:flex;align-items:center;gap:8px}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--green);opacity:0.4;transition:opacity 0.3s}
+.sync-dot.active{opacity:1;animation:pulse 1s ease infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+.prog-wrap{height:5px;background:var(--border);border-radius:999px;overflow:hidden}
+.prog-fill{height:100%;background:var(--green);border-radius:999px;transition:width 0.5s ease}
+.prog-label{display:flex;justify-content:space-between;margin-top:4px;font-size:11px;color:var(--text2)}
+.prog-label strong{color:var(--text);font-weight:500}
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - 80px)}
+/* SIDEBAR */
+.sidebar{width:148px;min-width:148px;background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:6px 0}
+@media(max-width:500px){.sidebar{width:110px;min-width:110px}}
+.sb-group{padding:6px 0 2px}
+.sb-label{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;padding:0 10px 3px}
+.sb-item{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;cursor:pointer;font-size:12px;color:var(--text2);border-left:2px solid transparent;transition:all 0.12s;line-height:1.3}
+.sb-item:hover{background:var(--surface2);color:var(--text)}
+.sb-item.active{background:var(--green-light);color:var(--green);border-left-color:var(--green);font-weight:500}
+.sb-badge{font-size:10px;background:var(--surface2);border-radius:999px;padding:1px 5px;color:var(--text3);white-space:nowrap}
+.sb-item.active .sb-badge{background:var(--green-light);color:var(--green)}
+/* MAIN */
+.main{flex:1;overflow-y:auto;padding:12px;min-width:0}
+/* STATS BAR */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;text-align:center}
+.stat-n{font-size:20px;font-weight:600;line-height:1.1}
+.stat-l{font-size:10px;color:var(--text2);margin-top:2px}
+.stat-n.g{color:var(--green)}
+.stat-n.r{color:var(--red)}
+.stat-n.gold{color:var(--gold)}
+.stat-n.b{color:var(--blue)}
+/* FILTERS */
+.filters{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
+.f-btn{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;transition:all 0.12s;font-family:inherit}
+.f-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.f-btn:active{transform:scale(0.96)}
+/* ACTIONS */
+.actions{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.act-btn{font-size:12px;padding:5px 11px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:5px;font-family:inherit;transition:all 0.12s}
+.act-btn:hover{background:var(--surface2);color:var(--text)}
+.act-btn.danger{color:var(--red);border-color:#dc354544}
+.act-btn.danger:hover{background:#dc354512}
+/* OVERVIEW GRID */
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px}
+.ov-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 11px;cursor:pointer;transition:border-color 0.15s}
+.ov-card:hover{border-color:var(--border2)}
+.ov-grp{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:2px}
+.ov-name{font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.ov-bar{height:3px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:4px}
+.ov-bar-f{height:100%;background:var(--green);border-radius:999px;transition:width 0.4s}
+.ov-pct{font-size:10px;color:var(--text2)}
+/* TEAM SECTION */
+.team-sec{margin-bottom:18px}
+.team-hdr{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:7px}
+.team-flag{font-size:18px;line-height:1}
+.team-name-lbl{font-size:14px;font-weight:500;flex:1}
+.team-mini-bar{flex:1;height:3px;background:var(--border);border-radius:999px;overflow:hidden;max-width:60px}
+.team-mini-fill{height:100%;background:var(--green);border-radius:999px}
+.team-prog-lbl{font-size:11px;color:var(--text2);white-space:nowrap}
+/* STICKER GRID */
+.stk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(50px,1fr));gap:5px}
+/* STICKER CARD */
+.stk{position:relative;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-sm);aspect-ratio:2/3;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.1s,border-color 0.15s,background 0.15s;overflow:hidden;user-select:none;-webkit-user-select:none}
+.stk:active{transform:scale(0.91)}
+.stk.owned{background:var(--green-light);border-color:var(--green-mid)}
+.stk.special{border-color:var(--gold-border);background:var(--gold-light)}
+.stk.owned.special{background:#f0c04028;border-color:var(--gold)}
+.stk-num{font-size:11px;font-weight:500;color:var(--text2)}
+.stk.owned .stk-num{color:var(--green)}
+.stk-icon{font-size:15px;margin-bottom:1px;opacity:0.9}
+.dup-badge{position:absolute;top:2px;right:2px;background:var(--red);color:#fff;font-size:9px;font-weight:600;border-radius:999px;width:14px;height:14px;display:flex;align-items:center;justify-content:center;line-height:1;pointer-events:none}
+.dup-ctrl{display:none;position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);justify-content:space-around;align-items:center;padding:2px 0}
+.stk:hover .dup-ctrl{display:flex}
+.dup-btn{font-size:15px;font-weight:500;color:var(--text2);padding:1px 7px;cursor:pointer;line-height:1.5;background:none;border:none;font-family:inherit}
+.dup-btn:hover{color:var(--text)}
+.dup-n{font-size:10px;font-weight:500;color:var(--text2)}
+/* SPECIALS SECTION */
+.spec-group-lbl{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px;margin-top:2px;letter-spacing:0.03em}
+/* SECTION HEADER */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sec-title{font-size:16px;font-weight:600}
+.sec-sub{font-size:12px;color:var(--text2)}
+/* ONBOARDING */
+.onboard{background:var(--surface);border:1px solid var(--green-mid);border-radius:var(--radius);padding:16px;margin-bottom:14px;text-align:center}
+.onboard h3{font-size:15px;font-weight:600;margin-bottom:5px}
+.onboard p{font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.onboard button{font-size:13px;padding:7px 18px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;font-family:inherit;font-weight:500}
+/* EMPTY STATE */
+.empty{text-align:center;padding:36px 20px;color:var(--text2);font-size:13px}
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:var(--bg);font-size:13px;font-weight:500;border-radius:999px;padding:8px 18px;opacity:0;pointer-events:none;transition:all 0.22s;z-index:500;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;min-height:200px;color:var(--text2);font-size:13px;gap:8px}
+.spinner{width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* RESET CONFIRM */
+.reset-confirm-msg{font-size:11px;color:var(--red);margin-top:4px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row1">
+    <div class="header-title">Album Copa <em>2026</em> — Victor &amp; Helena</div>
+    <div class="header-right">
+      <div class="sync-dot" id="sync-dot" title="Sincronizando..."></div>
+    </div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="prog-label"><strong id="prog-txt">0 / 980</strong><strong id="prog-pct">0%</strong></div>
+</div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="main" id="main"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DB_URL = 'https://album-copa-2026-7799f-default-rtdb.firebaseio.com';
+const DB_PATH = '/copa2026.json';
+
+const GROUPS = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+const GROUP_LABELS = {A:'Grupo A',B:'Grupo B',C:'Grupo C',D:'Grupo D',E:'Grupo E',F:'Grupo F',G:'Grupo G',H:'Grupo H',I:'Grupo I',J:'Grupo J',K:'Grupo K',L:'Grupo L'};
+
+const FLAGS = {MEX:'🇲🇽',RSA:'🇿🇦',KOR:'🇰🇷',CZE:'🇨🇿',CAN:'🇨🇦',BIH:'🇧🇦',QAT:'🇶🇦',SUI:'🇨🇭',BRA:'🇧🇷',MAR:'🇲🇦',HAI:'🇭🇹',SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',USA:'🇺🇸',PAR:'🇵🇾',AUS:'🇦🇺',TUR:'🇹🇷',GER:'🇩🇪',CUW:'🇨🇼',CIV:'🇨🇮',ECU:'🇪🇨',NED:'🇳🇱',JPN:'🇯🇵',SWE:'🇸🇪',TUN:'🇹🇳',BEL:'🇧🇪',EGY:'🇪🇬',IRN:'🇮🇷',NZL:'🇳🇿',ESP:'🇪🇸',CPV:'🇨🇻',KSA:'🇸🇦',URU:'🇺🇾',FRA:'🇫🇷',SEN:'🇸🇳',IRQ:'🇮🇶',NOR:'🇳🇴',ARG:'🇦🇷',AUT:'🇦🇹',ALG:'🇩🇿',JOR:'🇯🇴',COL:'🇨🇴',POR:'🇵🇹',COD:'🇨🇩',UZB:'🇺🇿',CRO:'🇭🇷',GHA:'🇬🇭',ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',PAN:'🇵🇦'};
+
+const TEAMS = {
+  A:[{c:'MEX',n:'México'},{c:'RSA',n:'África do Sul'},{c:'KOR',n:'Coreia do Sul'},{c:'CZE',n:'Rep. Tcheca'}],
+  B:[{c:'CAN',n:'Canadá'},{c:'BIH',n:'Bósnia e Herz.'},{c:'QAT',n:'Catar'},{c:'SUI',n:'Suíça'}],
+  C:[{c:'BRA',n:'Brasil'},{c:'MAR',n:'Marrocos'},{c:'HAI',n:'Haiti'},{c:'SCO',n:'Escócia'}],
+  D:[{c:'USA',n:'Estados Unidos'},{c:'PAR',n:'Paraguai'},{c:'AUS',n:'Austrália'},{c:'TUR',n:'Turquia'}],
+  E:[{c:'GER',n:'Alemanha'},{c:'CUW',n:'Curaçao'},{c:'CIV',n:'Costa do Marfim'},{c:'ECU',n:'Equador'}],
+  F:[{c:'NED',n:'Holanda'},{c:'JPN',n:'Japão'},{c:'SWE',n:'Suécia'},{c:'TUN',n:'Tunísia'}],
+  G:[{c:'BEL',n:'Bélgica'},{c:'EGY',n:'Egito'},{c:'IRN',n:'Irã'},{c:'NZL',n:'Nova Zelândia'}],
+  H:[{c:'ESP',n:'Espanha'},{c:'CPV',n:'Cabo Verde'},{c:'KSA',n:'Arábia Saudita'},{c:'URU',n:'Uruguai'}],
+  I:[{c:'FRA',n:'França'},{c:'SEN',n:'Senegal'},{c:'IRQ',n:'Iraque'},{c:'NOR',n:'Noruega'}],
+  J:[{c:'ARG',n:'Argentina'},{c:'AUT',n:'Áustria'},{c:'ALG',n:'Argélia'},{c:'JOR',n:'Jordânia'}],
+  K:[{c:'COL',n:'Colômbia'},{c:'POR',n:'Portugal'},{c:'COD',n:'RD Congo'},{c:'UZB',n:'Uzbequistão'}],
+  L:[{c:'CRO',n:'Croácia'},{c:'GHA',n:'Gana'},{c:'ENG',n:'Inglaterra'},{c:'PAN',n:'Panamá'}],
+};
+
+const SPECIALS = [
+  ...Array.from({length:8},(_,i)=>({id:`FWC-${i+1}`,lbl:`FWC ${i+1}`})),
+  {id:'SOMOS26',lbl:'SOMOS26'},
+  ...Array.from({length:11},(_,i)=>({id:`FIFA-${i+1}`,lbl:`FIFA Museum ${i+1}`})),
+];
+const TOTAL = 980;
+
+let stickers = {};
+let section = 'overview';
+let filter = 'all';
+let showOnboard = false;
+let resetStep = 0;
+let saveTimer = null;
+let lastSavedHash = '';
+let isSaving = false;
+
+function dataHash(d){ return JSON.stringify(d); }
+
+async function loadFromFirebase(){
+  setSyncDot(true);
+  try{
+    const r = await fetch(DB_URL + DB_PATH);
+    if(r.ok){
+      const d = await r.json();
+      if(d && d.stickers){
+        stickers = d.stickers;
+        lastSavedHash = dataHash(stickers);
+      } else {
+        showOnboard = true;
+      }
+    }
+  }catch(e){ showOnboard = true; }
+  setSyncDot(false);
+  updateHeader();
+  buildSidebar();
+  renderMain();
+}
+
+async function saveToFirebase(){
+  if(isSaving) return;
+  isSaving = true;
+  setSyncDot(true);
+  try{
+    await fetch(DB_URL + DB_PATH, {
+      method:'PATCH',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({stickers, updatedAt: Date.now()})
+    });
+    lastSavedHash = dataHash(stickers);
+  }catch(e){}
+  isSaving = false;
+  setSyncDot(false);
+}
+
+async function pollFirebase(){
+  try{
+    const r = await fetch(DB_URL + DB_PATH);
+    if(r.ok){
+      const d = await r.json();
+      if(d && d.stickers){
+        const h = dataHash(d.stickers);
+        if(h !== lastSavedHash && h !== dataHash(stickers)){
+          stickers = d.stickers;
+          lastSavedHash = h;
+          updateHeader();
+          buildSidebar();
+          renderMain();
+          showToast('Sincronizado com a Helena!');
+        }
+      }
+    }
+  }catch(e){}
+}
+
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToFirebase, 400);
+}
+
+function setSyncDot(on){
+  const d = document.getElementById('sync-dot');
+  if(d) d.classList.toggle('active', on);
+}
+
+function totalOwned(){ return Object.values(stickers).filter(s=>s.o).length; }
+function specialsOwned(){ return SPECIALS.filter(s=>stickers[s.id]?.o).length; }
+function withDups(){ return Object.values(stickers).filter(s=>s.d>0).length; }
+function teamOwned(code){ let n=0; for(let i=1;i<=20;i++) if(stickers[`${code}-${i}`]?.o) n++; return n; }
+
+function updateHeader(){
+  const owned = totalOwned();
+  const pct = Math.round(owned/TOTAL*100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-txt').textContent = owned + ' / ' + TOTAL;
+  document.getElementById('prog-pct').textContent = pct + '%';
+}
+
+function buildSidebar(){
+  const items = [{id:'overview',lbl:'Visão geral',badge:''}];
+  items.push({id:'special',lbl:'✦ Especiais',badge:`${specialsOwned()}/${SPECIALS.length}`});
+  for(const g of GROUPS){
+    const teams = TEAMS[g];
+    const total = teams.length*20;
+    const owned = teams.reduce((s,t)=>s+teamOwned(t.c),0);
+    items.push({id:g,lbl:GROUP_LABELS[g],badge:`${owned}/${total}`});
+  }
+  document.getElementById('sidebar').innerHTML = items.map(it=>`
+    <div class="sb-item${section===it.id?' active':''}" onclick="nav('${it.id}')">
+      <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${it.lbl}</span>
+      ${it.badge?`<span class="sb-badge">${it.badge}</span>`:''}
+    </div>`).join('');
+}
+
+function nav(s){ section=s; filter='all'; resetStep=0; buildSidebar(); renderMain(); }
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function isSpecialSticker(id){
+  return id.startsWith('FWC')||id==='SOMOS26'||id.startsWith('FIFA')||id.endsWith('-1');
+}
+
+function stkClass(id){
+  const s=stickers[id];
+  let c='stk';
+  if(isSpecialSticker(id)) c+=' special';
+  if(s?.o) c+=' owned';
+  return c;
+}
+
+function stkHTML(id, lbl){
+  const s=stickers[id]||{o:false,d:0};
+  const icon = s.o ? '✓' : (isSpecialSticker(id)?'★':'');
+  const dup = s.d||0;
+  return `<div class="${stkClass(id)}" id="stk-${id}" onclick="toggle('${id}')">
+    <span class="stk-icon" style="color:${s.o?(isSpecialSticker(id)?'var(--gold)':'var(--green)'):'var(--text3)'}${!icon?';opacity:0':''}">${icon||'·'}</span>
+    <span class="stk-num">${lbl}</span>
+    ${dup>0?`<div class="dup-badge">${dup}</div>`:''}
+    ${s.o?`<div class="dup-ctrl">
+      <button class="dup-btn" onclick="chDup('${id}',-1,event)">−</button>
+      <span class="dup-n">${dup}</span>
+      <button class="dup-btn" onclick="chDup('${id}',1,event)">+</button>
+    </div>`:''}
+  </div>`;
+}
+
+function toggle(id){
+  if(!stickers[id]) stickers[id]={o:false,d:0};
+  stickers[id].o = !stickers[id].o;
+  if(!stickers[id].o) stickers[id].d=0;
+  scheduleSave();
+  updateHeader();
+  buildSidebar();
+  const el=document.getElementById('stk-'+id);
+  if(el){ const s=stickers[id]; el.outerHTML=stkHTML(id,el.querySelector('.stk-num').textContent); }
+  showToast(stickers[id]?.o ? '✓ Marcada!' : 'Removida');
+}
+
+function chDup(id,delta,e){
+  e.stopPropagation();
+  if(!stickers[id]?.o) return;
+  stickers[id].d = Math.max(0,(stickers[id].d||0)+delta);
+  scheduleSave();
+  const el=document.getElementById('stk-'+id);
+  if(el){
+    const badge=el.querySelector('.dup-badge');
+    const dn=el.querySelector('.dup-n');
+    const d=stickers[id].d;
+    if(d>0){
+      if(badge) badge.textContent=d; else{ const b=document.createElement('div');b.className='dup-badge';b.textContent=d;el.appendChild(b);}
+    } else { badge&&badge.remove(); }
+    if(dn) dn.textContent=d;
+  }
+}
+
+function copyMissing(){
+  const lines=[];
+  const addTeam=(code,name)=>{
+    const m=[];
+    for(let i=1;i<=20;i++) if(!stickers[`${code}-${i}`]?.o) m.push(i);
+    if(m.length) lines.push(`[${name.toUpperCase()}] Faltam: ${m.join(', ')}`);
+  };
+  if(section==='overview'){
+    const sm=SPECIALS.filter(s=>!stickers[s.id]?.o).map(s=>s.lbl);
+    if(sm.length) lines.push(`[ESPECIAIS] Faltam: ${sm.join(', ')}`);
+    for(const g of GROUPS) for(const t of TEAMS[g]) addTeam(t.c,t.n);
+  } else if(section==='special'){
+    const sm=SPECIALS.filter(s=>!stickers[s.id]?.o).map(s=>s.lbl);
+    if(sm.length) lines.push(`[ESPECIAIS] Faltam: ${sm.join(', ')}`);
+  } else {
+    for(const t of (TEAMS[section]||[])) addTeam(t.c,t.n);
+  }
+  if(!lines.length){showToast('Nenhuma faltando nessa seção!');return;}
+  navigator.clipboard.writeText(lines.join('\n'))
+    .then(()=>showToast('Lista copiada para o WhatsApp!'))
+    .catch(()=>{ const ta=document.createElement('textarea');ta.value=lines.join('\n');document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();showToast('Lista copiada!'); });
+}
+
+function doReset(){
+  if(resetStep===0){resetStep=1;renderMain();return;}
+  stickers={};saveToFirebase();showOnboard=true;resetStep=0;
+  updateHeader();buildSidebar();renderMain();
+}
+
+function setFilter(f){ filter=f; renderMain(); }
+
+function renderMain(){
+  const el=document.getElementById('main');
+  const filterBar=`<div class="filters">
+    <button class="f-btn${filter==='all'?' active':''}" onclick="setFilter('all')">Todas</button>
+    <button class="f-btn${filter==='missing'?' active':''}" onclick="setFilter('missing')">Faltam</button>
+    <button class="f-btn${filter==='owned'?' active':''}" onclick="setFilter('owned')">Temos</button>
+    <button class="f-btn${filter==='dup'?' active':''}" onclick="setFilter('dup')">Repetidas</button>
+  </div>`;
+  const actionsBar=`<div class="actions">
+    <button class="act-btn" onclick="copyMissing()">📋 Copiar faltantes</button>
+    <button class="act-btn danger" onclick="doReset()">${resetStep===0?'🗑 Zerar tudo':'⚠️ Confirmar reset'}</button>
+  </div>`;
+
+  if(section==='overview'){
+    const owned=totalOwned(),sp=specialsOwned(),dup=withDups();
+    let html=``;
+    if(showOnboard) html+=`<div class="onboard"><h3>Bem-vindos, Victor e Helena! 🏆</h3><p>Clique nas figurinhas para marcar as que vocês têm. Qualquer atualização sincroniza automaticamente entre os celulares de vocês.</p><button onclick="dismissOnboard()">Começar a colecionar</button></div>`;
+    html+=`<div class="stats-bar">
+      <div class="stat-card"><div class="stat-n g">${owned}</div><div class="stat-l">Coletadas</div></div>
+      <div class="stat-card"><div class="stat-n r">${TOTAL-owned}</div><div class="stat-l">Faltam</div></div>
+      <div class="stat-card"><div class="stat-n gold">${sp}</div><div class="stat-l">Especiais</div></div>
+      <div class="stat-card"><div class="stat-n b">${dup}</div><div class="stat-l">Repetidas</div></div>
+    </div>`;
+    html+=actionsBar;
+    html+=`<div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;letter-spacing:0.02em">PROGRESSO POR SELEÇÃO</div>`;
+    html+=`<div class="ov-grid">`;
+    for(const g of GROUPS){
+      for(const t of TEAMS[g]){
+        const ow=teamOwned(t.c),pct=Math.round(ow/20*100);
+        html+=`<div class="ov-card" onclick="nav('${g}')">
+          <div class="ov-grp">Grupo ${g}</div>
+          <div class="ov-name">${FLAGS[t.c]||''} ${t.n}</div>
+          <div class="ov-bar"><div class="ov-bar-f" style="width:${pct}%"></div></div>
+          <div class="ov-pct">${ow}/20 — ${pct}%</div>
+        </div>`;
+      }
+    }
+    html+=`</div>`;
+    el.innerHTML=html;
+    return;
+  }
+
+  if(section==='special'){
+    let sp=SPECIALS;
+    if(filter==='missing') sp=sp.filter(s=>!stickers[s.id]?.o);
+    else if(filter==='owned') sp=sp.filter(s=>stickers[s.id]?.o);
+    else if(filter==='dup') sp=sp.filter(s=>stickers[s.id]?.d>0);
+    let html=`<div class="sec-hdr"><div class="sec-title">✦ Especiais</div><div class="sec-sub">${specialsOwned()}/${SPECIALS.length}</div></div>`;
+    html+=filterBar+actionsBar;
+    if(!sp.length){html+=`<div class="empty">Nenhuma figurinha nesse filtro</div>`;el.innerHTML=html;return;}
+    const fwc=sp.filter(s=>s.id.startsWith('FWC')||s.id==='SOMOS26');
+    const museum=sp.filter(s=>s.id.startsWith('FIFA'));
+    if(fwc.length){html+=`<div class="spec-group-lbl">FWC + SOMOS26</div><div class="stk-grid">${fwc.map(s=>stkHTML(s.id,s.lbl)).join('')}</div>`;}
+    if(museum.length){html+=`<div class="spec-group-lbl" style="margin-top:12px">FIFA Museum</div><div class="stk-grid">${museum.map(s=>stkHTML(s.id,s.lbl)).join('')}</div>`;}
+    el.innerHTML=html;
+    return;
+  }
+
+  const teams=TEAMS[section]||[];
+  if(!teams.length){el.innerHTML='';return;}
+  const total=teams.reduce((s,t)=>s+teamOwned(t.c),0);
+  let html=`<div class="sec-hdr"><div class="sec-title">Grupo ${section}</div><div class="sec-sub">${total}/${teams.length*20}</div></div>`;
+  html+=filterBar+actionsBar;
+  let anyVisible=false;
+  for(const t of teams){
+    const ow=teamOwned(t.c),pct=Math.round(ow/20*100);
+    let stks=Array.from({length:20},(_,i)=>({id:`${t.c}-${i+1}`,n:i+1}));
+    if(filter==='missing') stks=stks.filter(s=>!stickers[s.id]?.o);
+    else if(filter==='owned') stks=stks.filter(s=>stickers[s.id]?.o);
+    else if(filter==='dup') stks=stks.filter(s=>stickers[s.id]?.d>0);
+    if(!stks.length) continue;
+    anyVisible=true;
+    html+=`<div class="team-sec">
+      <div class="team-hdr">
+        <span class="team-flag">${FLAGS[t.c]||''}</span>
+        <span class="team-name-lbl">${t.n}</span>
+        <div class="team-mini-bar"><div class="team-mini-fill" style="width:${pct}%"></div></div>
+        <span class="team-prog-lbl">${ow}/20</span>
+      </div>
+      <div class="stk-grid">${stks.map(s=>stkHTML(s.id,s.n)).join('')}</div>
+    </div>`;
+  }
+  if(!anyVisible) html+=`<div class="empty">Nenhuma figurinha nesse filtro</div>`;
+  el.innerHTML=html;
+}
+
+function dismissOnboard(){ showOnboard=false; renderMain(); }
+
+document.getElementById('main').innerHTML = `<div class="loading"><div class="spinner"></div> Carregando álbum...</div>`;
+
+loadFromFirebase();
+setInterval(pollFirebase, 15000);
+</script>
+</body>
+</html>
